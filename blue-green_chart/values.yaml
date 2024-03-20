@@ -10,7 +10,7 @@ blue:
   label: blue-green-app
   container:
     name: my-bg-app
-    image: adamtravis/rollouts:blue #green
+    image: adamtravis/rollouts:red #green
     portname: http
     port: 8080 # the port your application is listening on inside the container
 
@@ -19,7 +19,7 @@ service:
   label: bg-app
   type: LoadBalancer
   portname: http
-  port: 8080 # the port exposed by the service itself. Allows other Pods or External clients to access the service
+  port: 80 # the port exposed by the service itself. Allows other Pods or External clients to access the service
   targetPort: 8080 # Must match the containerPort, to which the traffic will be forwarded.
   selector: blue-green-app
 
@@ -29,7 +29,7 @@ ingress:
     run: bg-app
   service:
     name: bg-app-service
-    port: 8080 # Must match the service Port, to which traffic will be forwarded.
+    port: 80 # Must match the service Port, to which traffic will be forwarded.
   className: alb
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
